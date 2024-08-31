@@ -4,26 +4,25 @@ import React, { useState } from "react";
 import styles from "../shared/page.module.css";
 import Chat from "../../components/chat";
 import WeatherWidget from "../../components/weather-widget";
-import { getWeather } from "../../utils/weather";
+import { getAccount } from "../../utils/account";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 
-interface WeatherData {
-  location?: string;
-  temperature?: number;
-  conditions?: string;
-}
+interface AccountData {
+  AccountOpenSuccessfull?: boolean;
+  AccountNumber?: number;
+ }
 
 const FunctionCalling = () => {
-  const [weatherData, setWeatherData] = useState<WeatherData>({});
-  const isEmpty = Object.keys(weatherData).length === 0;
+  const [accountData, setAccountData] = useState<AccountData>({});
+  const isEmpty = Object.keys(accountData).length === 0;
 
   const functionCallHandler = async (call: RequiredActionFunctionToolCall) => {
-    //if (call?.function?.name !== "brokerage_individual") return;
-if (call?.function?.name !== "get_weather")return;
+    if (call?.function?.name !== "brokerage_individual") return;
     const args = JSON.parse(call.function.arguments);
-   // const data = getWeather(args.City);
- const data = getWeather(args.location);
-    setWeatherData(data);
+  //const data = getWeather(args.City);
+  const data = getAccount(args.SocialSecurityNumber);
+    setAccountData(data);
+    console.log(args)
     return JSON.stringify(data);
     //return JSON.stringify(call.function.arguments);
   };
@@ -32,11 +31,8 @@ if (call?.function?.name !== "get_weather")return;
     <main className={styles.main}>
       <div className={styles.container}>
         <div className={styles.column}>
-          <WeatherWidget
-            location={weatherData.location || "---"}
-            temperature={weatherData.temperature?.toString() || "---"}
-            conditions={weatherData.conditions || "Sunny"}
-            isEmpty={isEmpty}
+        <WeatherWidget
+            
           />
         </div>
         <div className={styles.chatContainer}>
