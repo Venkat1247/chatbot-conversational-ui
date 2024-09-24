@@ -4,6 +4,8 @@ import Warnings from "./components/warnings";
 import { assistantId } from "./assistant-config";
 const inter = Inter({ subsets: ["latin"] });
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Assistants API Quickstart",
   description: "A quickstart template using the Assistants API with OpenAI",
