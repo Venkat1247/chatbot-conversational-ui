@@ -1,6 +1,7 @@
 import { openai } from "@/app/openai";
 
 export const runtime = "nodejs";
+export const maxDuration = 45;
 
 // Create a new thread
 export async function POST() {
